@@ -10,6 +10,7 @@ jedi==0.19.1
 matplotlib-inline==0.1.7
 parso==0.8.4
 pexpect==4.9.0
+phonenumberslite==8.13.39
 pillow==10.3.0
 prompt_toolkit==3.0.47
 psycopg2-binary==2.9.9
