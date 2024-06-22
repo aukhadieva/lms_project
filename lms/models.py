@@ -20,7 +20,7 @@ class Course(models.Model):
 class Lesson(models.Model):
     name = models.CharField(max_length=150, verbose_name='название')
     description = models.TextField(verbose_name='описание')
-    img = models.ImageField(upload_to='course/', verbose_name='превью (картинка)', **NULLABLE)
+    img = models.ImageField(upload_to='lesson/', verbose_name='превью (картинка)', **NULLABLE)
     link = models.URLField(max_length=200, verbose_name='ссылка на видео')
     course = models.ForeignKey(to=Course, on_delete=models.CASCADE, verbose_name='курс')
 
