@@ -1,10 +1,11 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from users.models import User, Payment
-from users.serializers import UserSerializer, PaymentSerializer
+from users.permissions import IsUser
+from users.serializers import UserSerializer, PaymentSerializer, UserViewSerializer
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -23,6 +24,7 @@ class UserCreateAPIView(generics.CreateAPIView):
 class UserUpdateAPIView(generics.UpdateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    permission_classes = [IsAuthenticated, IsUser]
 
     def perform_update(self, serializer):
         """
@@ -34,13 +36,21 @@ class UserUpdateAPIView(generics.UpdateAPIView):
 
 
 class UserListAPIView(generics.ListAPIView):
-    serializer_class = UserSerializer
+    serializer_class = UserViewSerializer
     queryset = User.objects.all()
 
 
 class UserRetrieveAPIView(generics.RetrieveAPIView):
-    serializer_class = UserSerializer
     queryset = User.objects.all()
+
+    def get_serializer_class(self):
+        """
+        Возвращает класс сериализатора, который будет использоваться для сериализации объекта.
+        """
+        if self.request.user.email == self.get_object().email:
+            return UserSerializer
+        else:
+            return UserViewSerializer
 
 
 class UserDestroyAPIView(generics.DestroyAPIView):
