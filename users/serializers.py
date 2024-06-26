@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from users.models import User, Payment
-from users.permissions import IsUser
 
 
 class PaymentSerializer(serializers.ModelSerializer):
