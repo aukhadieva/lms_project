@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from users.models import User, Payment
+from users.permissions import IsUser
 
 
 class PaymentSerializer(serializers.ModelSerializer):
@@ -15,3 +16,10 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
+
+class UserViewSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        exclude = ('password', 'last_name',)
