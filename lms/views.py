@@ -8,9 +8,25 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
 
+    def perform_create(self, serializer):
+        """
+        Привязывает курс к пользователю.
+        """
+        instance = serializer.save()
+        instance.owner = self.request.user
+        instance.save()
+
 
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
+
+    def perform_create(self, serializer):
+        """
+        Привязывает урок к пользователю.
+        """
+        instance = serializer.save()
+        instance.owner = self.request.user
+        instance.save()
 
 
 class LessonListAPIView(generics.ListAPIView):
