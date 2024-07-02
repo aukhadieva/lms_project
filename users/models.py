@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from phonenumber_field import modelfields
@@ -24,7 +26,7 @@ class User(AbstractUser):
 
 class Payment(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name='пользователь')
-    payment_date = models.DateTimeField()
+    payment_date = models.DateTimeField(verbose_name='дата оплаты')
     course = models.ForeignKey(to=Course, on_delete=models.CASCADE, verbose_name='оплаченный курс')
     lesson = models.ForeignKey(to=Lesson, on_delete=models.CASCADE, verbose_name='оплаченный урок')
     sum = models.PositiveIntegerField(verbose_name='сумма оплаты')
