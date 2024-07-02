@@ -68,13 +68,15 @@ class CourseTestCase(test.APITestCase):
                          'owner': self.user.pk,
                          'course': self.course.pk}
                     ],
-                    'subscriptions': False,
+                    'subscriptions': 'подписка отсутствует',
                     'name': self.course.name,
                     'description': self.course.description,
                     'img': None,
-                    'owner': self.user.pk}
+                    'owner': self.user.pk
+                }
             ]
         }
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data, result)
 
@@ -103,8 +105,9 @@ class LessonTestCase(test.APITestCase):
         """
         url = reverse('lms:crate_lesson')
         data = {'name': 'урок #2', 'description': 'описание урока #2', 'link': 'https://youtube.com/2/',
-                'course': 7}
+                'course': self.course.pk}
         response = self.client.post(url, data)
+        print(response.json())
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(Lesson.objects.all().exists())
 
@@ -139,18 +142,11 @@ class LessonTestCase(test.APITestCase):
                         'link': self.lesson.link,
                         'owner': self.user.pk,
                         'course': self.course.pk
-                     }
+                    }
                 ]
         }
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data, result)
-
-    def test_lesson_delete(self):
-        url = reverse('lms:delete_lesson', args=(self.lesson.pk,))
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Lesson.objects.all().count(), 0)
-
 
     def test_lesson_retrieve(self):
         """
@@ -162,3 +158,11 @@ class LessonTestCase(test.APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data.get('name'), self.lesson.name)
 
+    def test_lesson_delete(self):
+        """
+        Тест на удаление одного урока.
+        """
+        url = reverse('lms:delete_lesson', args=(self.lesson.pk,))
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Lesson.objects.all().count(), 0)
