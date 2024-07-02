@@ -21,7 +21,7 @@ class SubscriptionTestCase(test.APITestCase):
         Тест функционала работы подписки на обновления курса.
         """
         url = reverse('subscription:create_subscription')
-        data = {'owner': self.user.pk, 'course': 1, 'is_subscribed': True}
+        data = {'owner': self.user.pk, 'course': self.course.pk, 'is_subscribed': True}
         response = self.client.post(url, data)
         data = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
