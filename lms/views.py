@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 
@@ -7,6 +9,8 @@ from lms.permissions import IsModerator, IsOwner
 from lms.serializers import CourseSerializer, LessonSerializer
 
 
+@method_decorator(name='destroy', decorator=swagger_auto_schema(
+    operation_description="Warning: Course delete endpoint."))
 class CourseViewSet(viewsets.ModelViewSet):
     """
     ViewSet for Course.
