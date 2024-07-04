@@ -1,5 +1,7 @@
 asgiref==3.8.1
 asttokens==2.4.1
+certifi==2024.6.2
+charset-normalizer==3.3.2
 coverage==7.5.4
 decorator==5.1.1
 Django==4.2.13
@@ -10,6 +12,7 @@ djangorestframework-simplejwt==5.3.1
 drf-yasg==1.21.7
 executing==2.0.1
 flake8==7.1.0
+idna==3.7
 inflection==0.5.1
 ipython==8.25.0
 jedi==0.19.1
@@ -31,10 +34,14 @@ PyJWT==2.8.0
 python-dotenv==1.0.1
 pytz==2024.1
 PyYAML==6.0.1
+requests==2.32.3
 setuptools==70.2.0
 six==1.16.0
 sqlparse==0.5.0
 stack-data==0.6.3
+stripe==10.1.0
 traitlets==5.14.3
+typing_extensions==4.12.2
 uritemplate==4.1.1
+urllib3==2.2.2
 wcwidth==0.2.13
