@@ -170,3 +170,6 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+# Stripe secret key
+STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
