@@ -1,0 +1,25 @@
+    header {
+    position: sticky;
+    top: 0;
+    padding: 10px;
+    z-index: 3;
+    background-color: rgb(255, 255, 255);
+
+}
+
+    body {
+    height: 100vh;
+    margin: 0;
+    background-repeat: no-repeat;
+    overflow-x: auto;
+}
+    .wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    }
+
+    .flex-shrink-0 {
+    padding: 30px;
+    flex: 1 1 auto;
+    }
