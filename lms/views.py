@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 
@@ -7,7 +9,12 @@ from lms.permissions import IsModerator, IsOwner
 from lms.serializers import CourseSerializer, LessonSerializer
 
 
+@method_decorator(name='destroy', decorator=swagger_auto_schema(
+    operation_description="Warning: Course delete endpoint."))
 class CourseViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for Course.
+    """
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
     pagination_class = LmsPaginator
@@ -40,6 +47,9 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
+    """
+    Lesson create endpoint.
+    """
     serializer_class = LessonSerializer
     permission_classes = [~IsModerator, IsAuthenticated]
 
@@ -53,6 +63,9 @@ class LessonCreateAPIView(generics.CreateAPIView):
 
 
 class LessonListAPIView(generics.ListAPIView):
+    """
+    Lesson list endpoint.
+    """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
@@ -69,17 +82,26 @@ class LessonListAPIView(generics.ListAPIView):
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
+    """
+    Lesson retrieve endpoint.
+    """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
+    """
+    Lesson update endpoint.
+    """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
+    """
+    Lesson destroy endpoint.
+    """
     queryset = Lesson.objects.all()
     permission_classes = [IsAuthenticated, ~IsModerator | IsOwner]

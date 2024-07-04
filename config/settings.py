@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
+    'drf_yasg',
     'users',
     'lms',
     'subscription'
@@ -126,11 +127,16 @@ USE_I18N = True
 
 USE_TZ = True
 
+DOMAIN_NAME = 'http://localhost:8000'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -164,3 +170,6 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+# Stripe secret key
+STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
