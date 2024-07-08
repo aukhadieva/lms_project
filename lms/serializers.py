@@ -30,7 +30,9 @@ class CourseSerializer(serializers.ModelSerializer):
         return 0
 
     def get_subscriptions(self, obj):
-        if obj.subscription_set.filter(is_subscribed=True):
+        request = self.context.get('request')
+        user = request.user
+        if obj.subscription_set.filter(user=user, is_subscribed=True):
             return 'подписка оформлена'
         else:
             return 'подписка отсутствует'
