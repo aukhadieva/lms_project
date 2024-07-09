@@ -7,6 +7,7 @@ from lms.models import Course, Lesson
 from lms.paginators import LmsPaginator
 from lms.permissions import IsModerator, IsOwner
 from lms.serializers import CourseSerializer, LessonSerializer
+from lms.tasks import send_mail_about_updates
 
 
 @method_decorator(name='destroy', decorator=swagger_auto_schema(
@@ -25,6 +26,14 @@ class CourseViewSet(viewsets.ModelViewSet):
         """
         instance = serializer.save()
         instance.owner = self.request.user
+        instance.save()
+
+    def perform_update(self, serializer):
+        """
+        Запускает отложенную задачу send_mail_about_updates при обновлении курса.
+        """
+        instance = serializer.save()
+        send_mail_about_updates.delay(instance.pk)
         instance.save()
 
     def get_permissions(self):
