@@ -20,7 +20,7 @@ def check_last_login():
     for user in users:
         current_date_time = datetime.now(pytz.timezone(settings.TIME_ZONE))
         user_last_login = user.last_login
-        inactive_period = user_last_login + relativedelta(days=2) #(months=1)
+        inactive_period = user_last_login + relativedelta(months=1)
 
         if current_date_time > inactive_period:
             user.is_active = False
