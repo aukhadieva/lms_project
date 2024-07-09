@@ -1,9 +1,13 @@
+from datetime import datetime
+
+import pytz
 from django.views.generic import DetailView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
+from config import settings
 from lms.models import Course, Lesson
 from users.models import User, Payment
 from users.permissions import IsUser
@@ -24,6 +28,7 @@ class UserCreateAPIView(generics.CreateAPIView):
         """
         instance = serializer.save(is_active=True)
         instance.set_password(instance.password)
+        instance.last_login = datetime.now(pytz.timezone(settings.TIME_ZONE))
         instance.save()
 
 

@@ -9,7 +9,6 @@ from subscription.serializers import SubscriptionSerializer
 
 class SubscriptionCreateAPIView(generics.CreateAPIView):
     serializer_class = SubscriptionSerializer
-    queryset = Subscription.objects.all()
 
     def post(self, request, *args, **kwargs):
         """
