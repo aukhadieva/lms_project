@@ -78,6 +78,7 @@ class UserDestroyAPIView(generics.DestroyAPIView):
     User destroy endpoint.
     """
     queryset = User.objects.all()
+    permission_classes = [IsAuthenticated, IsUser]
 
 
 class PaymentListAPIView(generics.ListAPIView):

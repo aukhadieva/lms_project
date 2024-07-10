@@ -37,6 +37,9 @@ class CourseViewSet(viewsets.ModelViewSet):
         instance.save()
 
     def get_permissions(self):
+        """
+        Проверяет права и исходя из этого разрешает / запрещает доступ эндпоинтам.
+        """
         if self.action in ['update', 'partial_update', 'list', 'retrieve']:
             self.permission_classes = [IsAuthenticated]
         elif self.action == 'create':
