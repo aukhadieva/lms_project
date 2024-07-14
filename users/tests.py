@@ -52,7 +52,6 @@ class UserTestCase(test.APITestCase):
                 'email': self.user.email,
                 'phone_number': None,
                 'city': None,
-                'city': None,
                 'avatar': None,
                 'groups': [],
                 'user_permissions': []
@@ -91,7 +90,8 @@ class PaymentTestCase(test.APITestCase):
                                             link='https://youtube.com/', course=self.course)
         self.payment = Payment.objects.create(user=self.user,
                                               payment_date=datetime.datetime.now().strftime('%Y-%m-%dT%H:%M:%S%z'),
-                                              course=self.course, lesson=self.lesson, sum=2000, payment_method='cash')
+                                              course=self.course, lesson=self.lesson, payment_method='cash',
+                                              session_id='cs_test_a1pn4YPAAULue7FO2rwwiz7xn3DfTtROPFYE9MBQNY457cahYPhBoYJ2Mq')
 
     def test_payment_list(self):
         """
@@ -101,15 +101,15 @@ class PaymentTestCase(test.APITestCase):
         response = self.client.get(url)
         data = response.json()
         result = [
-            {
-                'id': self.payment.pk,
-                'payment_date': data[0]['payment_date'],
-                'sum': self.payment.sum,
-                'payment_method': self.payment.payment_method,
-                'user': self.user.pk,
-                'course': self.course.pk,
-                'lesson': self.lesson.pk
-            }
+            {'id': self.payment.pk,
+             'payment_date': data[0]['payment_date'],
+             'payment_method': 'cash',
+             'session_id': self.payment.session_id,
+             'payment_link': None,
+             'payment_status': 'paid',
+             'user': self.user.pk,
+             'course': self.course.pk,
+             'lesson': self.lesson.pk}
         ]
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data, result)
