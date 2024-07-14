@@ -51,32 +51,36 @@ class CourseTestCase(test.APITestCase):
         url = reverse('lms:course-list')
         response = self.client.get(url)
         data = response.json()
+        print(data)
         result = {
             'count': 1,
             'next': None,
             'previous': None,
             'results': [
-                {
-                    'id': self.course.pk,
-                    'number_of_lessons': 1,
-                    'lessons': [
-                        {'id': self.lesson.pk,
-                         'name': self.lesson.name,
-                         'description': self.lesson.description,
-                         'img': None,
-                         'link': self.lesson.link,
-                         'owner': self.user.pk,
-                         'course': self.course.pk}
-                    ],
-                    'subscriptions': 'подписка отсутствует',
-                    'name': self.course.name,
-                    'description': self.course.description,
-                    'img': None,
-                    'owner': self.user.pk
-                }
+                {'id': self.course.pk,
+                 'number_of_lessons': 1,
+                 'lessons': [
+                     {'id': self.lesson.pk,
+                      'name': self.lesson.name,
+                      'description': self.lesson.description,
+                      'img': None,
+                      'link': self.lesson.link,
+                      'amount': None,
+                      'created_at': data['results'][0]['lessons'][0]['created_at'],
+                      'updated_at': data['results'][0]['lessons'][0]['updated_at'],
+                      'owner': self.user.pk,
+                      'course': self.course.pk}
+                 ],
+                 'subscriptions': 'подписка отсутствует',
+                 'name': self.course.name,
+                 'description': self.course.description,
+                 'img': None,
+                 'amount': None,
+                 'created_at': data['results'][0]['created_at'],
+                 'updated_at': data['results'][0]['updated_at'],
+                 'owner': self.user.pk}
             ]
         }
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data, result)
 
@@ -104,8 +108,8 @@ class LessonTestCase(test.APITestCase):
         Тест на создание урока.
         """
         url = reverse('lms:crate_lesson')
-        data = {'name': 'урок #2', 'description': 'описание урока #2', 'link': 'https://youtube.com/2/',
-                'course': self.course.pk}
+        data = {'owner': self.user.pk, 'name': 'урок #2', 'description': 'описание урока #2',
+                'link': 'https://youtube.com/2/', 'course': self.course.pk}
         response = self.client.post(url, data)
         print(response.json())
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -132,18 +136,18 @@ class LessonTestCase(test.APITestCase):
             'count': 1,
             'next': None,
             'previous': None,
-            'results':
-                [
-                    {
-                        'id': self.lesson.pk,
-                        'name': self.lesson.name,
-                        'description': self.lesson.description,
-                        'img': None,
-                        'link': self.lesson.link,
-                        'owner': self.user.pk,
-                        'course': self.course.pk
-                    }
-                ]
+            'results': [
+                {'id': self.lesson.pk,
+                 'name': self.lesson.name,
+                 'description': self.lesson.description,
+                 'img': None,
+                 'link': self.lesson.link,
+                 'amount': None,
+                 'created_at': data['results'][0]['created_at'],
+                 'updated_at': data['results'][0]['updated_at'],
+                 'owner': self.user.pk,
+                 'course': self.course.pk}
+            ]
         }
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(data, result)

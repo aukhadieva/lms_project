@@ -33,7 +33,6 @@ class CourseViewSet(viewsets.ModelViewSet):
         Запускает отложенную задачу send_mail_about_updates при обновлении курса.
         """
         instance = serializer.save()
-        send_mail_about_updates.delay(instance.pk)
         instance.save()
 
     def get_permissions(self):
@@ -71,6 +70,7 @@ class LessonCreateAPIView(generics.CreateAPIView):
         """
         instance = serializer.save()
         instance.owner = self.request.user
+        send_mail_about_updates.delay(instance.course.pk)
         instance.save()
 
 

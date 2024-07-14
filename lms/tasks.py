@@ -23,14 +23,13 @@ def send_mail_about_updates(pk):
         for subscriber in subscribers:
             subscribers_email.append(User.objects.get(pk=subscriber.user.pk).email)
 
-        if instance.updated_at > instance.created_at:
-            try:
-                send_mail(
-                    subject='Обновление курса',
-                    message=f'Информация курса {instance.name} обновилась, заходи на сайт, чтобы увидеть изменения!',
-                    from_email=settings.EMAIL_HOST_USER,
-                    recipient_list=subscribers_email,
-                    fail_silently=False
-                )
-            except smtplib.SMTPException as error:
-                raise error
+        try:
+            send_mail(
+                subject=f'Обновление курса {instance.name}',
+                message=f'Информация курса {instance.name} обновилась, заходи на сайт, чтобы увидеть изменения!',
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=subscribers_email,
+                fail_silently=False
+            )
+        except smtplib.SMTPException as error:
+            raise error
