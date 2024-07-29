@@ -6,7 +6,6 @@ from django.core.mail import send_mail
 from config import settings
 from lms.models import Course
 from subscription.models import Subscription
-from users.models import User
 
 
 @shared_task
