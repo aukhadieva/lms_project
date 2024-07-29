@@ -45,11 +45,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
-    'drf_yasg',
-    'django_celery_beat',
     'users',
-    'lms',
-    'subscription'
+    'lms'
 ]
 
 MIDDLEWARE = [
@@ -128,16 +125,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-DOMAIN_NAME = 'http://localhost:8000'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -171,27 +163,3 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
-
-# Stripe secret key
-
-STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
-
-# Celery
-
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
-
-CELERY_BEAT_SCHEDULE = {
-    'check last login': {
-        'task': 'users.tasks.check_last_login',
-        'schedule': timedelta(seconds=10),
-    },
-}
-
-# Email host
-
-EMAIL_HOST = os.getenv('EMAIL_HOST')
-EMAIL_PORT = os.getenv('EMAIL_PORT')
-EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', False) == 'True'
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
